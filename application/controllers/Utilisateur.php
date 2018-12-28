@@ -15,25 +15,35 @@
 
         public function nouvel_utilisateur()
         {
-            $nomcomplet = $this->input->post('nomcomplet'); 
-            $email = $this->input->post('email');
-            $login = $this->input->post('login');
-            $mdp = $this->input->post('mdp');
-            $mdpconf = $this->input->post('mdpconf');
+            
+            $this->load->library('form_validation'); //chargement du library form_validation
 
-            $data = array(
-                'nomcomplet' => $nomcomplet,
-                'email' => $email,
-                'login' => $login,
-                'mdp' => $mdp,
-                'mdp' => $mdp,
-                'etat' => FALSE
-            );
+            if ($this->form_validation->run()) //Ligne Ajouter
+            {
+                $nomcomplet = $this->input->post('nomcomplet'); 
+                $email = $this->input->post('email');
+                $login = $this->input->post('login');
+                $mdp = $this->input->post('mdp');
+                $mdpconf = $this->input->post('mdpconf');
 
-            $this->load->model('UtilisateurModel');
-            $this->UtilisateurModel->creer_utilisateur($data);
+                $data = array(
+                    'nomcomplet' => $nomcomplet,
+                    'email' => $email,
+                    'login' => $login,
+                    'mdp' => $mdp,
+                    'mdp' => $mdp,
+                    'etat' => FALSE
+                );
 
-            $this->load->view('utilisateur/utilisateur_success');
+                $this->load->model('UtilisateurModel');
+                $this->UtilisateurModel->creer_utilisateur($data);
+
+                $this->load->view('utilisateur/utilisateur_success');
+            }
+            else
+            {
+                $this->load->view('utilisateur/form_inscription');
+            }
         }
 
         public function connexion()
